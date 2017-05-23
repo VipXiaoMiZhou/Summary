@@ -80,7 +80,7 @@ public class GenericsCompile {
 ### 泛型方法
 
 >泛型既可以作用在整个类上也可以单独作用在某个方法上。泛型方法使得该方法可以独立于类而产生变化。以下是一个基本的指导原则是：
-**无论何时，只要你能做到，你就应该尽量使用泛型方法。**也就是说，如果使用泛型方法可以取代将整个类泛化，那么应该有限采用泛型方法。<br/>
+ **无论何时，只要你能做到，你就应该尽量使用泛型方法。** 也就是说，如果使用泛型方法可以取代将整个类泛化，那么应该有限采用泛型方法。<br/>
 
 >《Java编程思想 （第4版）》
 
@@ -103,12 +103,12 @@ public class Main {
 }
 ```
 
+如下面的代码所示：```<T>```是用来规范```T```的，例如```<T extends Object>```就规定了```T```边界，即规定了所有出现```T```的地方，```T```类型必须是```Object```的子类。而方法名```hello```前面的```T```表示的函数的返回值。
 ```java
 public <T> T hello(T t) {
         return t;
     }
 ```
-如上面代码所示：，```<T>```是用来规范```T```的，例如```<T extends Object>```就规定了```T```边界，即规定了所有出现```T```的地方，```T```类型必须是```Object```的子类。而方法名```hello```前面的```T```表示的函数的返回值。
 
 ### 泛型使用注意事项
 
@@ -118,11 +118,38 @@ public <T> T hello(T t) {
 一个类不能同时实现泛型接口的两种变体。因为擦除机制的存在，会使得这两个接口没有任何显著的区别。
 - 重载
 当被擦除的参数不能产生唯一的参数列表的时候，必须提供显著有区别的方法名。
-- 参数协变
-ddd
-- 异常
-ddd
+- 参数参数协变性
+Java 语言中的数组是协变的。举例来说，```Integer```扩展了 ```Number```，所以```Integer```不仅是 ```Number```，而且 ```Integer[]```也是```Number[]```。在要求使用```Number[]```的地方完全可以传递或者赋予 ```Integer[]```。（更正式地说，如果```Number```是```Integer```的超类型，那么```Number[]```也是 ```Integer[]```的超类型）。
 
+```java
+    public static void testCovariant(Number[] num) {
+        for (Number n : num) {
+            System.out.println(n);
+        }
+    }
+
+    public static void main(String args[]) {
+        testCovariant(new Integer[] { 1, 2, 3 });
+    }
+    // output : 1,2,3
+```
+
+
+但对于泛型来说，事情并不是这样的。虽然```Number```是```Integer```的父类，但是```List<Number>```却不是```List<Integer>```的父类型，在需要传递```List<Number>```也不能传递```List<Integer>```。
+```java
+    public static void testCovariant(List<Number> num) {
+        for (Number n : num) {
+            System.out.println(n);
+        }
+    }
+
+    public static void main(String args[]) {
+        
+        testCovariant(new ArrayList<Integer>(3));
+    }
+    
+    //error : The method testCovariant(List<Number>) in the type ErasedType<T> is not applicable for the arguments (ArrayList<Integer>)
+```
 
 - **```<? extends T>```和 ```<? super T>```的区别**
 
@@ -153,7 +180,6 @@ public class ErasedType<T> {
 }
 ```
 
-- **不能对确切的泛型类型使用```instanceof```操作。如下面的操作是非法的，编译时会出错。如果规定了边界，只能调用边界内的方法。**
 - **不能创建一个确切的泛型类型的数组**
 ```java
 T[] s = new T[100];  //Cannot create a generic array of T
