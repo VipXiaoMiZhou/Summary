@@ -58,7 +58,7 @@ Blocked :
 Dead：
 当线程正常执行完任务从```run()```返回或者意外终止时，线程处于死亡状态，线程不在有机会获得任何CPU时间。
 <br>
-[!](img/threadstatus.jpg)
+![](img/threadstatus.jpg)
 （图片来源于网络，侵删）
 
 ### 捕获异常
