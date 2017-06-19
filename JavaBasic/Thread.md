@@ -108,6 +108,7 @@ public class CatchThreadException {
 ```
 正如注释中描述的那样，当运行在线程中的代码抛出异常导致线程终止的时候，这个方法就会被调用。
 使用的话也非常简单，只需要在线程中调用```setUncaughtExceptionHandler```就可以了。
+
 ```java
 public void setUncaughtExceptionHandler(UncaughtExceptionHandler eh) {
         checkAccess();
@@ -185,3 +186,5 @@ Thread.Sleep(0)的作用是“触发操作系统立刻重新进行一次CPU竞�
 
 [ConcurrentHashMap](https://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/index.html)
 [volatile](http://www.cnblogs.com/dolphin0520/p/3920373.html)
+[ThreadLocal](http://www.iteye.com/topic/103804)
+[ThreadLocal](http://www.cnblogs.com/dolphin0520/p/3920407.html)
