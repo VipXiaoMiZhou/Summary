@@ -10,11 +10,26 @@
 ……
 直到无序区只有一个元素为止。
 
-以下内容来源于[skywang12345](http://www.cnblogs.com/skywang12345/p/3602162.html)
+以下内容来源于 [skywang12345](http://www.cnblogs.com/skywang12345/p/3602162.html)
 
 下面演示heap_sort_asc(a, n)对a={20,30,90,40,70,110,60,10,100,50,80}, n=11进行堆排序过程。下面是数组a对应的初始化结构：
+
 ![](img/heapinit.jpg)
 
+* i=11/2-1，即i=4
+![](img/i4.jpg)
+
+* i=3
+![](img/i3.jpg)
+
+* i=2
+![](img/i2.jpg)
+
+* i=1
+![](img/i1.jpg)
+
+* i=0
+![](img/i0.jpg)
 
 ### 算法实现（java）
 
