@@ -6,11 +6,12 @@ it.
 
 > -- *Design Patterns Elements of Reusable Object-Oriented Software*
 
-保证一个类只有一个实例并为这个类提供一个全局的访问点。
+单例模式，顾名思义，就是保证一个类只有一个实例并为这个类提供一个全局的访问点。
    
    
 
 ## Structure
+![单例模式结构图](img/singleton/Singleton.png)
 
 ## 时序图
 
