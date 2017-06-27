@@ -13,6 +13,7 @@ it.
 ## Structure
 
 * 单例模式结构图
+
 ![](img/singleton/SingletonStructure.png)
 
 ```Singleton```： 定义一个```getInstance```方法让外界调用其唯一的实例。
