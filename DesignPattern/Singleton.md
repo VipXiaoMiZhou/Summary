@@ -11,7 +11,11 @@ it.
    
 
 ## Structure
-![单例模式结构图](img/singleton/Singleton.png)
+![单例模式结构图](img/singleton/SingletonStructure.png)
+
+单例模式结构图
+
+
 
 ## 时序图
 
