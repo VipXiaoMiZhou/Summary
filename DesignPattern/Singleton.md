@@ -21,6 +21,7 @@ it.
 * 单例模式代码
 ```java
 public class Singleton {
+
     private static Singleton instance = new Singleton();
 
     private Singleton() {
@@ -45,6 +46,7 @@ public class Singleton {
 
 ```java
 public class Singleton {
+
     private static Singleton instance = new Singleton();
 
     private Singleton() {
@@ -71,6 +73,7 @@ public class Singleton {
  package com.designpattern.singleton;
 
 public class LazySingleton {
+
     private static LazySingleton instance = null;
 
     private LazySingleton() {
@@ -88,13 +91,14 @@ public class LazySingleton {
 ```
  
  
-双重检查饿汉式单例：
+”双重检查锁“饿汉式单例：
 
 ```java
 
 package com.designpattern.singleton;
 
 public class LazySingleton {
+
     private static LazySingleton instance = null;
     static Object lock = new Object();
 
@@ -102,6 +106,7 @@ public class LazySingleton {
     }
 
     public static LazySingleton getInstance() {
+	
         if (null == instance) {
             synchronized (lock) {
                 if (null == instance) {
@@ -123,9 +128,105 @@ public class LazySingleton {
 
 这种实现方式确实是比第一中同步方法实现的方式要高级一些，双重检查只会发生在多个线程第一次同时调用```getInance```的时候发生，后面再调用的时候就直接返回。它的缺点也出现在这里，双重检查只发生在第一次调用，写那么多只是为了使用一次？似乎有点不太友好。
 
-* 内部类单例
+* 静态内部类单例
+
+```java
+package com.designpattern.singleton;
+
+public class InnerClassSingleton {
+
+    private static class SingletonHolder {
+        private static InnerClassSingleton instance = new InnerClassSingleton();
+    }
+
+    public static InnerClassSingleton getInstance() {
+        return SingletonHolder.instance;
+    }
+}
 
 
+```
+和饿汉式单例一样，内部类单例也是通过采用静态初始化器的方式，它可以由JVM来保证线程的安全性的。但是内部类单例模式还有一个好处就是并不是在类初始化的时候就去加载类，而是将类的初始化延迟到内部类中。只有当代码真正运行```SingletonHolder.instance```的时候，才会去加载。这样，不仅可以弥补饿汉式单例模式的不足，也保证了线程安全。
+
+
+* 枚举类单例
+
+```java
+package com.designpattern.singleton;
+
+public enum EnumSingleton {
+
+    instance;
+
+    public void singletonOperation() {
+	
+        System.out.println("hello, java");
+    }
+
+    public static void main(String[] args) {
+	
+        instance.singletonOperation();
+    }
+}
+
+
+```
+为什么枚举类能够保证单例和线程安全呢 ？ 我们先不妨将这段代码先编译一下，然后在反编译看看是什么样子的。
+
+ 编译```javac EnumSingleton.java```，生成一个```EnumSingleton.class```
+ 
+ 反编译```javap -p EnumSingleton.class```
+ 
+ 
+ ```java
+public final class com.designpattern.singleton.EnumSingleton extends java.lang.Enum<com.designpattern.singleton.EnumSingleton> {
+  public static final com.designpattern.singleton.EnumSingleton instance;
+  private static final com.designpattern.singleton.EnumSingleton[] $VALUES;
+  public static com.designpattern.singleton.EnumSingleton[] values();
+  public static com.designpattern.singleton.EnumSingleton valueOf(java.lang.String);
+  private com.designpattern.singleton.EnumSingleton();
+  public void singletonOperation();
+  public static void main(java.lang.String[]);
+  static {};
+}
+
+```
+可以看到，反编译的代码中，多了一个私有化的构造函数，即使在源码中并没有声明，这也就禁止了外界通过调用构造函数创建枚举对象的可能。
+其次，```instance``` 被编译成了一个```static final```的对象，也就是说，```instance```的初始化由jvm保证。满足这两点的类，自然也就是一个单例类了。
+
+甚至还可以像下面这样，在同一个枚举类里面定义不同的单例。
+```java
+package com.designpattern.singleton;
+
+public enum EnumSingleton {
+
+    instance1 {
+        @Override
+        public void singletonOperation() {
+            System.out.println("instance1");
+        }
+
+    },
+    instance2 {
+
+        @Override
+        public void singletonOperation() {
+            System.out.println("instance2");
+        }
+
+    };
+
+    public abstract void singletonOperation();
+
+    public static void main(String[] args) {
+        instance1.singletonOperation();
+        instance2.singletonOperation();
+    }
+}
+
+
+
+```
 
 
 ## 总结
