@@ -276,9 +276,10 @@ public abstract class Enum<E extends Enum<E>>
 
 ## jdk中的单例
 
-```java.lang.Runtime```
+```java.lang.Runtime``` (饿汉式单例)
 
-```jpublic class Runtime {
+```java
+public class Runtime {
     private static Runtime currentRuntime = new Runtime();
 
     /**
