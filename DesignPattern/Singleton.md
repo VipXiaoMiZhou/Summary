@@ -295,7 +295,7 @@ public class Runtime {
     }
 
     /** Don't let anyone else instantiate this class */
-    private Runtime() {}ava
+    private Runtime() {}
 	
 	//...
 }
