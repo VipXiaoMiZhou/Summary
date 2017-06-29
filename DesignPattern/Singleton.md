@@ -274,6 +274,33 @@ public abstract class Enum<E extends Enum<E>>
 ```
 从```java.lang.Enum```可以看到，当调用```readObjectNoData```或```readObject```，都会抛异常。
 
+## jdk中的单例
+
+```java.lang.Runtime```
+
+```jpublic class Runtime {
+    private static Runtime currentRuntime = new Runtime();
+
+    /**
+     * Returns the runtime object associated with the current Java application.
+     * Most of the methods of class <code>Runtime</code> are instance
+     * methods and must be invoked with respect to the current runtime object.
+     *
+     * @return  the <code>Runtime</code> object associated with the current
+     *          Java application.
+     */
+    public static Runtime getRuntime() {
+        return currentRuntime;
+    }
+
+    /** Don't let anyone else instantiate this class */
+    private Runtime() {}ava
+	
+	//...
+}
+
+```
+
 
 ## 总结
 
