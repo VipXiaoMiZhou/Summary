@@ -3,7 +3,7 @@
 ---
 > “ defne a one-to-many dependency between objects so that when one object changes
 state, all its dependents are notified and updated automatically."
-> -- *Design Patterns Elements of Reusable Object-Oriented Software*
+> -- *Design Patterns ： Elements of Reusable Object-Oriented Software*
 
 观者者模式，又叫发布-阅模式。它定义了一种一对多的关系使得一个被订阅（观察）对象的状态发生改变，所有订阅这个对象的对象都能自动更新自己。
    
@@ -13,9 +13,9 @@ state, all its dependents are notified and updated automatically."
 
 * 观察者结构图
 
-![](img/observe/observe.png)
+![](img/observe/Observe.png)
 
-```Subject``` : 又被称为observable,它的作用把所有observe的引用保存在一个聚集中（List比如），可以添加新的observe，移除已经存在的observe。一般用一个接口来实现
+```Subject``` : 又被称为```observable```,它的作用把所有observe的引用保存在一个聚集中（```List```比如），可以添加新的```observe```，移除已经存在的```observe```。一般用一个接口来实现
 
 ```Observe``` : 为所有的观察者提供一个统一的接口，作用是在得到跟新指令的时候更新自己。
 
@@ -23,7 +23,8 @@ state, all its dependents are notified and updated automatically."
 
 ```ConstructorObserve``` : 具体观察者对象，得到通知的时候更新自己。
 
-* 单例模式代码
+* 观察者模式代码
+
 ```Observe```
 
 ```java
@@ -102,13 +103,40 @@ public class ConstructorObserve implements Observe {
 
 }
 
+```
+```client``` 调用示例：
+
+```java
+package com.designpattern.observe;
+
+import java.util.Random;
+
+public class Client {
+    public static void main(String[] args) {
+        Subject subject = new ConstructorSubject();
+        Observe observe1 = new ConstructorObserve("observe1");
+        Observe observe2 = new ConstructorObserve("observe2");
+
+        subject.attach(observe1);
+        subject.attach(observe2);
+
+        while (true) {
+            int randValue = new Random().nextInt(100);
+            if (randValue == 50) {
+                subject.notify2();
+                break;
+            }
+        }
+    }
+}
+
 
 ```
 
 
 ## 时序图
 
-略
+![](img/observe/observeCallFlow.png)
 
 ## 使用场景
 
