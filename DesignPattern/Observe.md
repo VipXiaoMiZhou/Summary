@@ -3,6 +3,7 @@
 ---
 > “ defne a one-to-many dependency between objects so that when one object changes
 state, all its dependents are notified and updated automatically."
+
 > -- *Design Patterns ： Elements of Reusable Object-Oriented Software*
 
 观者者模式，又叫发布-阅模式。它定义了一种一对多的关系使得一个被订阅（观察）对象的状态发生改变，所有订阅这个对象的对象都能自动更新自己。
@@ -140,6 +141,143 @@ public class Client {
 
 ## 使用场景
 
+假如现有这么一个场景：
+
+一个文件夹监视器，当文件夹中的文件发生改变（增加，删除，修改）时，根据文件的不同类别以及不同改变作出相对应的动作。需要注意的是，需要监视的文件类型有可能会发生改变，有可能增多，也有可能减少。
+
+分析一下这个需求，文件监视器监视文件夹里文件的变化，那文件的变化就应该是监视器的内部状态。当这些内部状态发生变化的时候，通知相应的订阅者作出相应的更新（或变化）。
+
+对于监视器来说，它的职责只是负责捕捉“文件的变化”（不然当需要增加新的文件类型时，就需要改源代码了，这就违背了“开闭原则”了）并通知它的订阅者。
+
+对于订阅者来说，它需要能够区分不同的文件类新，不同的操作。
+
+UML 图如下：
+
+![](img/observe/watch.png)
+
+
+```WatchServiceSubject``` ： 监视器，负责捕捉文件的变化。
+
+```WatchServicerObsever```  ： 观者者接口
+
+```XmlObsever``` ： Xml的观察者
+
+```TxtObsever``` ： Txt的观察者
+
+```LogObsever``` ： Log的观察者
+
+
+```WatchServiceSubject```  :
+
+```java
+
+package com.designpattern.observe.example;
+
+import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
+import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
+
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.util.ArrayList;
+import java.util.List;
+
+public class WatchServiceSubject {
+    private List<WatchServicerObsever> obsevers = new ArrayList<WatchServicerObsever>();
+
+    private WatchService watcher = null;
+
+    public WatchServiceSubject(String path) throws IOException {
+        watcher = FileSystems.getDefault().newWatchService();
+        Paths.get(path).register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY, OVERFLOW);
+    }
+
+    public void addObsever(WatchServicerObsever obsever) {
+        obsevers.add(obsever);
+    }
+
+    public void removeObsever(WatchServicerObsever obsever) {
+        obsevers.remove(obsever);
+    }
+
+    public void update(String operation, String fileName) {
+        for (WatchServicerObsever obsever : obsevers) {
+            obsever.update(operation, fileName);
+        }
+    }
+
+    public void watch() {
+        for (;;) {
+            // wait for key to be signaled
+            WatchKey key;
+            try {
+                key = watcher.take();
+            } catch (InterruptedException x) {
+                return;
+            }
+
+            for (WatchEvent<?> event : key.pollEvents()) {
+                WatchEvent.Kind<?> kind = event.kind();
+
+                if (kind == OVERFLOW) {
+                    continue;
+                }
+
+                WatchEvent<Path> ev = (WatchEvent<Path>) event;
+                Path filename = ev.context();
+
+                // when changes happend, notify all obsevers
+                update(kind.toString(), filename.toAbsolutePath().toString());
+            }
+
+            boolean valid = key.reset();
+            if (!valid) {
+                break;
+            }
+        }
+    }
+}
+
+```
+
+```WatchServicerObsever```  : 
+
+```java
+package com.designpattern.observe.example;
+
+public interface WatchServicerObsever {
+    void update(String operation, String fileName);
+}
+
+
+```
+
+
+
+```XmlObsever```  : 
+
+```java
+package com.designpattern.observe.example;
+
+public class XmlObsever implements WatchServicerObsever {
+
+    private static final String XML_SUFFIX = ".xml";
+
+    public void update(String operation, String fileName) {
+        if (null != fileName && fileName.endsWith(XML_SUFFIX)) {
+            System.out.println("You are " + operation + " a xml file " + fileName);
+        }
+    }
+
+}
+
+```
 
 
 ## jdk中的应用
