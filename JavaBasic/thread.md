@@ -42,11 +42,13 @@ public class MyThread extends Thread {
         t.start();
     }
 ```
-我看网上有人在讨论这两种方式那一种更好。怎么说呢，我觉得这无所谓那种好那种不好，这完全取决于应用场景，毕竟合适的才是好的。
+
 
 ### 线程的状态以及状态之间的转换
 线程的状态
+
 New:
+
 当线程被创建时，它只会短暂的处于这种状态，这时系统已经为它分配了必要的资源，并执行了初始化。此时已经具备了获取系CPU时间的资格。
 
 Runnable:
@@ -170,12 +172,56 @@ public void setUncaughtExceptionHandler(UncaughtExceptionHandler eh) {
 ```
 
 * ```sleep()``` 和 ```wait()```的区别
-```wait()```是```Objectde```方法，```sleep()```是线程里面的方法。
-线程调用```wait()```的时候会让出锁，```sleep()```不会。
-```sleep()```会抛出异常，```wait()```不会。
+
+ ```wait()```是```Objectde```方法，```sleep()```是线程里面的方法。
+ 线程调用```wait()```的时候会让出锁，```sleep()```不会。
+ ```sleep()```会抛出异常，```wait()```不会。
 Thread.Sleep(0)的作用是“触发操作系统立刻重新进行一次CPU竞争”。
 
-* ```Executor``` 和 ```Executors```
+* ```Runnable``` 和 ```Callable```
+
+```Runnable```
+
+线程驱动任务，那任务就需要一种描述方式，在java中，这也就是```Runnable```的作用。在实现多线程的过程中，只需要任务体放在```run()```方法中并将这个任务附着在一个线程上，就可以实现多线程。```Runnable```中的```run()```方法不带返回值
+
+
+```Callable```
+
+```Callable```的功能和```Runnable```类似，只是```Callable```中的方法是```call()```,这个方法是带有返回值的。
+
+
+
+* ```Executor``` 
+
+```java
+public interface Executor {
+
+    /**
+     * Executes the given command at some time in the future.  The command
+     * may execute in a new thread, in a pooled thread, or in the calling
+     * thread, at the discretion of the <tt>Executor</tt> implementation.
+     *
+     * @param command the runnable task
+     * @throws RejectedExecutionException if this task cannot be
+     * accepted for execution.
+     * @throws NullPointerException if command is null
+     */
+    void execute(Runnable command);
+}
+```
+> An object that executes submitted Runnable tasks. This interface provides a way of decoupling task submission from the mechanics of how each task will be run, including details of thread use, scheduling, etc. An Executor is normally used instead of explicitly creating threads. For example, rather than invoking new Thread(new(RunnableTask())).start() for each of a set of tasks, you might use:
+
+根据 java doc的说法，这是一个用来执行提交的Runnable 任务。```Executor```提供了一种将任务提交与每个任务如何运行的机制分离的方法，包括线程使用、调度等细节。```Executor```通常被用来代替显示的创建线程。
+
+* ```ExecutorService```
+
+
+
+
+* ```Executors```
+
+
+
 * ```CountDownLatch``` 和 ```CyclicBarrier```
 
 
@@ -185,6 +231,9 @@ Thread.Sleep(0)的作用是“触发操作系统立刻重新进行一次CPU竞�
 
 
 [ConcurrentHashMap](https://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/index.html)
+
 [volatile](http://www.cnblogs.com/dolphin0520/p/3920373.html)
+
 [ThreadLocal](http://www.iteye.com/topic/103804)
+
 [ThreadLocal](http://www.cnblogs.com/dolphin0520/p/3920407.html)
