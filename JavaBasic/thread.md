@@ -215,11 +215,50 @@ public interface Executor {
 
 * ```ExecutorService```
 
+> An Executor that provides methods to manage termination and methods that can produce a Future for tracking progress of one or more asynchronous tasks.
+An ExecutorService can be shut down, which will cause it to reject new tasks. Two different methods are provided for shutting down an ExecutorService. The shutdown() method will allow previously submitted tasks to execute before terminating, while the shutdownNow() method prevents waiting tasks from starting and attempts to stop currently executing tasks. Upon termination, an executor has no tasks actively executing, no tasks awaiting execution, and no new tasks can be submitted. An unused ExecutorService should be shut down to allow reclamation of its resources.
+Method submit extends base method Executor.execute(java.lang.Runnable) by creating and returning a Future that can be used to cancel execution and/or wait for completion. Methods invokeAny and invokeAll perform the most commonly useful forms of bulk execution, executing a collection of tasks and then waiting for at least one, or all, to complete. (Class ExecutorCompletionService can be used to write customized variants of these methods.)
+The Executors class provides factory methods for the executor services provided in this package.
+
+```ExecutorService```是一个比Executor使用更广泛的子类接口，其提供了生命周期管理的方法，以及可跟踪一个或多个异步任务执行状况返回Future的方法
 
 
 
 * ```Executors```
 
+> Factory and utility methods for Executor, ExecutorService, ScheduledExecutorService, ThreadFactory, and Callable classes defined in this package.
+
+简单来说，就是提供一系列的方法获取各种线程池。
+
+
+* ```newFixedThreadPool```
+> Creates a thread pool that reuses a fixed number of threads operating off a shared unbounded queue.
+
+创建一个有给定数量线程的线程池，在任何时候，池中的线程都是可用的。当所有线程都处于活动状态的时候，新提交的任务将被排队等待直到有线程可用。如果线程执行期间因发生意外而终止，那新的线程会占有这个终止线程的任务。```newFixedThreadPool```中的线程会一直存在，直到它被明确关闭。
+
+* ```newSingleThreadExecutor```
+
+> Creates an Executor that uses a single worker thread operating off an unbounded queue. (Note however that if this single thread terminates due to a failure during execution prior to shutdown, a new one will take its place if needed to execute subsequent tasks.)
+
+创建一个新的只有一个工作线程的Executor。如果这个工作线程在Executor关闭前因为执行失败而终止，一个新的线程会继续执行后续任务直至完成。```newSingleThreadExecutor```保证任务是被顺序执行的，在任何时间，最多只有一个线程是出于活动状态。
+
+* ```newCachedThreadPool```
+
+> Creates a thread pool that creates new threads as needed, but will reuse previously constructed threads when they are available, and uses the provided ThreadFactory to create new threads when needed.
+
+创建一个当有需要的时候才会去创建新线程的线程池。在执行任务的过程中，如果池中有线程可用的话，则会重用的这些线程；如果没有可用的线程，则将创建新的线程并将其添加到池中。未使用60秒的线程被终止并从缓存中删除。因此，一个长期闲置的池将不会消耗任何资源。
+
+* ```newSingleThreadScheduledExecutor```
+
+> Creates a single-threaded executor that can schedule commands to run after a given delay, or to execute periodically.   Tasks are guaranteed to execute sequentially, and no more than one task will be active at any given time.
+
+创建一个单线程执行程序，它可以调度命令在给定的延迟之后运行，或者定期执行。任务被顺序执行，在任何给定的时间，最多只有一个任务在执行。
+
+* ```newScheduledThreadPool```
+
+> Creates a thread pool that can schedule commands to run after a given delay, or to execute periodically.
+
+创建一个线程池，该线程池可以调度命令在给定的延迟之后运行，或者定期执行。
 
 
 * ```CountDownLatch``` 和 ```CyclicBarrier```
