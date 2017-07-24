@@ -2,10 +2,11 @@
 -----
 
 ### 线程和进程
-#### 进程
+
+* 进程
 >进程是正在运行的程序的实例（an instance of a computer program that is being executed)。它是操作系统动态执行的基本单元，在传统的操作系统中，进程既是基本的分配单元，也是基本的执行单元。
 
-#### 线程
+* 线程
 >线程，有时被称为轻量级进程(Lightweight Process，LWP），是程序执行流的最小单元。线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源（堆栈，指令寄存器等）。
 
 ### 线程的创建
@@ -45,6 +46,7 @@ public class MyThread extends Thread {
 
 
 ### 线程的状态以及状态之间的转换
+
 线程的状态
 
 New:
@@ -171,21 +173,21 @@ public void setUncaughtExceptionHandler(UncaughtExceptionHandler eh) {
     // output :main thread over! , thread t
 ```
 
-* ```sleep()``` 和 ```wait()```的区别
+### ```sleep()``` 和 ```wait()```的区别
 
  ```wait()```是```Objectde```方法，```sleep()```是线程里面的方法。
  线程调用```wait()```的时候会让出锁，```sleep()```不会。
  ```sleep()```会抛出异常，```wait()```不会。
 Thread.Sleep(0)的作用是“触发操作系统立刻重新进行一次CPU竞争”。
 
-* ```Runnable``` 和 ```Callable```
+### ```Runnable``` 和 ```Callable```
 
-```Runnable```
+* ```Runnable```
 
 线程驱动任务，那任务就需要一种描述方式，在java中，这也就是```Runnable```的作用。在实现多线程的过程中，只需要任务体放在```run()```方法中并将这个任务附着在一个线程上，就可以实现多线程。```Runnable```中的```run()```方法不带返回值
 
 
-```Callable```
+* ```Callable```
 
 ```Callable```的功能和```Runnable```类似，只是```Callable```中的方法是```call()```,这个方法是带有返回值的。
 
@@ -261,11 +263,84 @@ The Executors class provides factory methods for the executor services provided 
 创建一个线程池，该线程池可以调度命令在给定的延迟之后运行，或者定期执行。
 
 
-* ```CountDownLatch``` 和 ```CyclicBarrier```
+### ```CountDownLatch``` 和 ```CyclicBarrier```
+
+* ```CountDownLatch```
+
+> A synchronization aid that allows one or more threads to wait until a set of operations being performed in other threads completes.
+
+一种同步方法，让一个或多个线程保持等待，直到在其他线程中执行的一组操作完成。
+
+> A ```CountDownLatch``` is initialized with a given count. The ```await``` methods block until the current count reaches zero due to invocations of the ```countDown()``` method, after which all waiting threads are released and any subsequent invocations of await return immediately. This is a one-shot phenomenon -- the count cannot be reset. If you need a version that resets the count, consider using a ```CyclicBarrier```.
+
+用给定的计数初始化 ```CountDownLatch```。由于调用了```countDown()``` 方法，所以在当前计数到达零之前，```await```方法会一直受阻塞。之后，会释放所有等待的线程，await 的所有后续调用都将立即返回。这种现象只出现一次——计数无法被重置。如果需要重置计数，请考虑使用 CyclicBarrier。
+
+* ```CyclicBarrier```
+
+> A synchronization aid that allows a set of threads to all wait for each other to reach a common barrier point. CyclicBarriers are useful in programs involving a fixed sized party of threads that must occasionally wait for each other. The barrier is called cyclic because it can be re-used after the waiting threads are released.
+
+一种同步方法，只有给定数量的线程到等待点以后才执行后续操作,在这之前```await```方法会一直受阻塞。在涉及固定大小的线程的程序中，循环障碍非常有用，这些线程必须偶尔等待彼此。这个屏障被称为循环，因为它可以在等待线程被释放后重新使用。
+
+```java
+public class CyclicBarrierDemo {
+    public static void main(String[] args) {
+        final CyclicBarrier cyclicBarrier = new CyclicBarrier(2);  // 当有2个线程到达时，await返回
+        final ExecutorService executors = Executors.newCachedThreadPool();
+
+        for (int i = 0; i < 5; i++) {
+            executors.execute(new Runnable() {
+
+                public void run() {
+                    try {
+                        Thread.sleep(new Random().nextInt(1000));
+                        System.out.println("I'm ***** " + Thread.currentThread().getName() + " and there are " + cyclicBarrier.getNumberWaiting()
+                                + " thread(s) are waiting at 1st point");
+                        cyclicBarrier.await();
+                        System.out.println("I'm " + Thread.currentThread().getName() + " and I've passed 1st wait point and is moving to 2nd wait point.");
+                        Thread.sleep(new Random().nextInt(1000));
+                        System.out.println("I'm ##### " + Thread.currentThread().getName() + " and there are " + cyclicBarrier.getNumberWaiting()
+                                + " thread(s) are waiting at 2nd point");
+                        cyclicBarrier.await();
+						System.out.println("I'm " + Thread.currentThread().getName() + " and I'm over.");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (BrokenBarrierException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        executors.shutdown();
+    }
+
+}
+
+    /*
+     * output :
+I'm ***** pool-1-thread-1 and there are 0 thread(s) are waiting at 1st point
+I'm ***** pool-1-thread-4 and there are 1 thread(s) are waiting at 1st point   // 2个线程到达，await返回
+I'm pool-1-thread-4 and I've passed 1st wait point and is moving to 2nd wait point.
+I'm pool-1-thread-1 and I've passed 1st wait point and is moving to 2nd wait point.
+I'm ***** pool-1-thread-3 and there are 0 thread(s) are waiting at 1st point
+I'm ***** pool-1-thread-5 and there are 1 thread(s) are waiting at 1st point
+I'm pool-1-thread-5 and I've passed 1st wait point and is moving to 2nd wait point.
+I'm pool-1-thread-3 and I've passed 1st wait point and is moving to 2nd wait point.
+I'm ##### pool-1-thread-1 and there are 0 thread(s) are waiting at 2nd point
+I'm ***** pool-1-thread-2 and there are 1 thread(s) are waiting at 1st point
+I'm pool-1-thread-2 and I've passed 1st wait point and is moving to 2nd wait point.
+I'm pool-1-thread-1 and I'm over.
+I'm ##### pool-1-thread-3 and there are 0 thread(s) are waiting at 2nd point
+I'm ##### pool-1-thread-5 and there are 1 thread(s) are waiting at 2nd point
+I'm pool-1-thread-5 and I'm over.
+I'm pool-1-thread-3 and I'm over.
+I'm ##### pool-1-thread-4 and there are 0 thread(s) are waiting at 2nd point
+I'm ##### pool-1-thread-2 and there are 1 thread(s) are waiting at 2nd point
+I'm pool-1-thread-2 and I'm over.
+I'm pool-1-thread-4 and I'm over.
+     */
 
 
-
-
+```
 
 
 
