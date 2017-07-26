@@ -156,7 +156,7 @@ cat /etc/passwd | gawk -F ':' 'BEGIN {} {print $1} END{}'
 
 BEGIN 后面不能只能跟print $1 类似的语句，打不出来
 
-gawk -F "=" 'BEGIN {} {if($1=="PRODUCT_VERSION"){VERSION=$2} if($1=="PRODUCT_NUMBER"){NUMBER=$2}} END{ print      "V="VERSION, "N="NUMBER   }' target/config/dveversion.csv
+gawk -F "=" 'BEGIN {} {if($1=="VERSION"){VERSION=$2} if($1=="NUMBER"){NUMBER=$2}} END{ print      "V="VERSION, "N="NUMBER   }' opt/config/version.csv
 
 
 ```
