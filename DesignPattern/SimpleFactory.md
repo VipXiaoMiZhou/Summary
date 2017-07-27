@@ -2,7 +2,7 @@
 
 ## Structure
 
-![](img/simplefactory/simplefactory.png)
+![](img/simplefactory/SimpleFactory.PNG)
 
 ```Productor``` : 定义产品的统一操作
 
