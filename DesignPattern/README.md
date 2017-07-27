@@ -34,6 +34,8 @@
 
 * [观察者模式](Observe.md)
 
+* [工厂方法](Factory.md)
+
 * [简单工厂](SimpleFactory.md)
 
 ## Design Pattern in JDK
