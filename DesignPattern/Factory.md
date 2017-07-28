@@ -1,4 +1,4 @@
-# Factory Methon
+# Factory Method
 
 > Define an interface for creating an object, but let subclasses decide which class
 to instantiate. Factory Method lets a class defer instantiation to subclasses.
@@ -78,4 +78,22 @@ public class ConcreteCreatorA implements Creator {
 
 ```
 
+```Client``` :
+
+```java
+package com.designpattern.factory;
+
+import com.designpattern.simplefactory.ConcreteProductorA;
+import com.designpattern.simplefactory.Productor;
+
+public class ConcreteCreatorA implements Creator {
+
+    @Override
+    public Productor creator() {
+        return new ConcreteProductorA();
+    }
+
+}
+
+```
 
