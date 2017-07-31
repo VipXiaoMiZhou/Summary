@@ -38,5 +38,9 @@
 
 * [简单工厂](SimpleFactory.md)
 
+* [责任链模式](ChainofReponsibility.md)
+
+* [建造者模式](Builder.md)
+
 ## Design Pattern in JDK
 [Design Pattern in JDK](https://stackoverflow.com/questions/1673841/examples-of-gof-design-patterns-in-javas-core-libraries)
