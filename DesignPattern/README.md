@@ -44,6 +44,8 @@
 
 * [备忘录模式](Memento.md)
 
+* [适配器模式](Adapter.md)
+
 
 
 ## Design Pattern in JDK
