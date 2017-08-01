@@ -10,7 +10,7 @@ interfaces.
 ## Structure
 
 
-![](img/adapter/adapter/.PNG)
+![](img/adapter/adapter.PNG)
 
 ```Target``` : 定义具体的客户端需要的接口
 
