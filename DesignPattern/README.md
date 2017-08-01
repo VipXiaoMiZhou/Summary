@@ -46,6 +46,8 @@
 
 * [适配器模式](Adapter.md)
 
+* [命令模式](Command.md)
+
 
 
 ## Design Pattern in JDK
