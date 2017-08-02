@@ -48,6 +48,8 @@
 
 * [命令模式](Command.md)
 
+* [代理模式](Proxy.md)
+
 
 
 ## Design Pattern in JDK
