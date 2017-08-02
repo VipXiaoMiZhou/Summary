@@ -50,6 +50,7 @@
 
 * [代理模式](Proxy.md)
 
+* [外观模式](Facade.md)
 
 
 ## Design Pattern in JDK
