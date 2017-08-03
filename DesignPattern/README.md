@@ -52,6 +52,8 @@
 
 * [外观模式](Facade.md)
 
+* [组合模式](Composite.md)
+
 
 ## Design Pattern in JDK
 [Design Pattern in JDK](https://stackoverflow.com/questions/1673841/examples-of-gof-design-patterns-in-javas-core-libraries)
