@@ -26,6 +26,8 @@
 
 [提给程序员和开发者的 10 道 Java 泛型面试题](http://www.open-open.com/lib/view/open1382151277662.html)
 
+[Java线程池实现原理](http://www.jianshu.com/p/87bff5cc8d8c)
+
 # shell
 [70个经典的 Shell 脚本面试问题](https://www.nowcoder.com/discuss/1669?type=1&order=0&pos=315&page=0?from=wb)
 
