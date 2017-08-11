@@ -30,7 +30,7 @@
 
 [Java IO](http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html)
 
-[Sprig docs](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/index.html)
+[Spring docs](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/index.html)
 
 # shell
 [70个经典的 Shell 脚本面试问题](https://www.nowcoder.com/discuss/1669?type=1&order=0&pos=315&page=0?from=wb)
