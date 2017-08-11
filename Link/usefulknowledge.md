@@ -28,6 +28,8 @@
 
 [Java线程池实现原理](http://www.jianshu.com/p/87bff5cc8d8c)
 
+[Java IO](http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html)
+
 # shell
 [70个经典的 Shell 脚本面试问题](https://www.nowcoder.com/discuss/1669?type=1&order=0&pos=315&page=0?from=wb)
 
