@@ -48,6 +48,11 @@
 
 * [命令模式](Command.md)
 
+* [代理模式](Proxy.md)
+
+* [外观模式](Facade.md)
+
+* [组合模式](Composite.md)
 
 
 ## Design Pattern in JDK
