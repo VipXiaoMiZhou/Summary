@@ -28,6 +28,8 @@
 
 [Java线程池实现原理](http://www.jianshu.com/p/87bff5cc8d8c)
 
+[Java动态绑定实现原理](http://blog.csdn.net/sureyonder/article/details/5569617)
+
 [Java IO](http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html)
 
 [Spring docs](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/index.html)
