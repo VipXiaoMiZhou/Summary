@@ -152,9 +152,8 @@ find . -type f -name "*" -empty -exec rm -f {} \;
 
 cat /etc/passwd | gawk -F ':' 'BEGIN{size=0} {size++;} {print $5} END{print "total count is "size}'
 
-cat /etc/passwd | gawk -F ':' 'BEGIN {} {print $1} END{}'
-
-BEGIN 后面不能只能跟print $1 类似的语句，打不出来
+# BEGIN 后面不能只能跟print $1 类似的语句，打不出来
+cat /etc/passwd | gawk -F ':' 'BEGIN {} {print $1} END{}' 
 
 gawk -F "=" 'BEGIN {} {if($1=="VERSION"){VERSION=$2} if($1=="NUMBER"){NUMBER=$2}} END{ print      "V="VERSION, "N="NUMBER   }' opt/config/version.csv
 
