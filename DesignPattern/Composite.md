@@ -72,7 +72,7 @@ public class Leaf implements Component {
 ```
 
 
-```Composite``` : 表死组合中的子节点对象
+```Composite``` : 表示组合中的子节点对象
 
 ```java
 package com.designpattern.composite;
